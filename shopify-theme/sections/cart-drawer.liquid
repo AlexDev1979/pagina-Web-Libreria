@@ -14,21 +14,26 @@
         <h3>{{ 'cart.upsell_heading' | t }}</h3>
         <ul class="upsell-grid">
           {% for product in section.settings.upsell_collection.products limit: section.settings.upsell_limit %}
-            <li class="upsell-item">
-              <a href="{{ product.url }}">
+            <li class="upsell-item" data-upsell-item>
+              <a href="{{ product.url }}" data-upsell-link data-product-id="{{ product.id }}">
                 {% if product.featured_image %}
                   <img src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.title }}">
                 {% endif %}
                 <span class="title">{{ product.title }}</span>
               </a>
               <div class="price">{{ product.price | money }}</div>
-              <form method="post" action="/cart/add" class="product-form upsell-form">
+              <form method="post" action="/cart/add" class="product-form upsell-form" data-upsell-form data-product-id="{{ product.id }}">
                 <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                <button type="submit">{{ 'products.product.add_to_cart' | t }}</button>
+                <button type="submit" data-upsell-add>{{ 'products.product.add_to_cart' | t }}</button>
               </form>
             </li>
           {% endfor %}
         </ul>
+      </div>
+    {% elsif section.settings.enable_auto_upsell %}
+      <div class="cart-upsell is-auto" data-upsell-auto data-upsell-limit="{{ section.settings.auto_upsell_limit }}">
+        <h3>{{ 'cart.upsell_heading' | t }}</h3>
+        <ul class="upsell-grid" data-upsell-grid></ul>
       </div>
     {% endif %}
 
@@ -62,7 +67,9 @@
   "name": "Cart drawer",
   "settings": [
     { "type": "collection", "id": "upsell_collection", "label": "Upsell collection" },
-    { "type": "range", "id": "upsell_limit", "label": "Upsell products to show", "min": 2, "max": 8, "step": 1, "default": 4 }
+    { "type": "range", "id": "upsell_limit", "label": "Upsell products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "enable_auto_upsell", "label": "Enable automatic upsell recommendations", "default": true },
+    { "type": "range", "id": "auto_upsell_limit", "label": "Auto upsell products to show", "min": 2, "max": 8, "step": 1, "default": 4 }
   ],
   "presets": [ { "name": "Cart drawer" } ]
 }

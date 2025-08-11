@@ -17,6 +17,13 @@
     return new Intl.NumberFormat(undefined, { style: 'currency', currency }).format((cents||0)/100);
   }
 
+  function track(eventName, payload){
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: eventName, ecommerce: payload || {} });
+    } catch(e) { /* no-op */ }
+  }
+
   const AjaxCart = (function(){
     const selectors = {
       drawer: '[data-cart-drawer]',
@@ -31,13 +38,15 @@
       discountField: '[data-discount-field]',
       mini: '[data-mobile-minicart]',
       miniSubtotal: '[data-mini-subtotal]',
-      miniCount: '[data-mini-count]'
+      miniCount: '[data-mini-count]',
+      upsellAuto: '[data-upsell-auto]',
+      upsellGrid: '[data-upsell-grid]'
     };
 
-    let drawer, overlay, itemsEl, subtotalEl, closeBtn, toggles, noteEl, discountInputEl, discountFieldEl, miniEl, miniSubtotalEl, miniCountEl;
+    let drawer, overlay, itemsEl, subtotalEl, closeBtn, toggles, noteEl, discountInputEl, discountFieldEl, miniEl, miniSubtotalEl, miniCountEl, upsellAutoEl, upsellGridEl;
 
-    function open(){ if (!drawer) return; drawer.classList.add('is-open'); drawer.setAttribute('aria-hidden', 'false'); }
-    function close(){ if (!drawer) return; drawer.classList.remove('is-open'); drawer.setAttribute('aria-hidden', 'true'); }
+    function open(){ if (!drawer) return; drawer.classList.add('is-open'); drawer.setAttribute('aria-hidden', 'false'); track('cart_drawer_open'); }
+    function close(){ if (!drawer) return; drawer.classList.remove('is-open'); drawer.setAttribute('aria-hidden', 'true'); track('cart_drawer_close'); }
 
     async function getCart(){ const res = await fetch('/cart.js', { headers: { 'Accept':'application/json' } }); return await res.json(); }
 
@@ -75,6 +84,7 @@
       updateCount(cart.item_count);
       if (noteEl) noteEl.value = cart.note || '';
       propagateDiscountToCheckout();
+      autoUpsell(cart);
     }
 
     async function refresh(){ const cart = await getCart(); render(cart); return cart; }
@@ -124,10 +134,7 @@
       await changeQty(key, qty);
     }
 
-    async function onNoteInput(e){
-      await updateNote(e.target.value);
-    }
-
+    async function onNoteInput(e){ await updateNote(e.target.value); }
     function onDiscountInput(){ propagateDiscountToCheckout(); }
 
     async function onProductFormSubmit(e){
@@ -136,11 +143,11 @@
       e.preventDefault();
       const formData = new FormData(form);
       const sellingPlan = form.querySelector('[name="selling_plan"]');
-      if (sellingPlan && sellingPlan.value) {
-        formData.set('selling_plan', sellingPlan.value);
-      }
+      if (sellingPlan && sellingPlan.value) { formData.set('selling_plan', sellingPlan.value); }
       const res = await fetch('/cart/add.js', { method: 'POST', body: formData, headers: { 'Accept':'application/json' } });
       if (!res.ok){ console.error('Add to cart failed'); return; }
+      const added = await res.json();
+      track('upsell_add', { items: [{ item_id: added.product_id, item_variant: added.variant_id, price: added.price, quantity: added.quantity }] });
       await refresh();
       open();
     }
@@ -156,6 +163,42 @@
       if (noteEl) noteEl.addEventListener('input', onNoteInput);
       if (discountInputEl) discountInputEl.addEventListener('input', onDiscountInput);
       document.addEventListener('submit', onProductFormSubmit, true);
+    }
+
+    function productCardHTML(p){
+      const img = p.image ? `<img src="${p.image.replace(/\.(jpg|jpeg|png|gif)(\?.*)?$/i,'_400x.$1') }" alt="${escapeHtml(p.title)}">` : '';
+      return `
+        <li class="upsell-item">
+          <a href="/products/${p.handle}" data-upsell-link data-product-id="${p.id}">
+            ${img}
+            <span class="title">${escapeHtml(p.title)}</span>
+          </a>
+          <div class="price">${formatMoney(p.price)}</div>
+          <form method="post" action="/cart/add" class="product-form upsell-form" data-upsell-form data-product-id="${p.id}">
+            <input type="hidden" name="id" value="${p.variants[0].id}">
+            <button type="submit" data-upsell-add>${(window.themeStrings && window.themeStrings['products.product.add_to_cart']) || 'Add to cart'}</button>
+          </form>
+        </li>`;
+    }
+
+    async function fetchRecommendations(productId, limit){
+      const url = `/recommendations/products.json?product_id=${productId}&limit=${limit||4}`;
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) return { products: [] };
+      return await res.json();
+    }
+
+    async function autoUpsell(cart){
+      upsellAutoEl = upsellAutoEl || $(selectors.upsellAuto, drawer);
+      upsellGridEl = upsellGridEl || $(selectors.upsellGrid, drawer);
+      if (!upsellAutoEl || !upsellGridEl) return;
+      if (!cart.items || cart.items.length === 0){ upsellGridEl.innerHTML = ''; return; }
+      const lastItem = cart.items[cart.items.length - 1];
+      const limit = parseInt(upsellAutoEl.getAttribute('data-upsell-limit') || '4', 10);
+      const recs = await fetchRecommendations(lastItem.product_id, limit);
+      if (!recs || !recs.products || recs.products.length === 0){ upsellGridEl.innerHTML = ''; return; }
+      upsellGridEl.innerHTML = recs.products.map(productCardHTML).join('');
+      track('upsell_view', { items: recs.products.map(p => ({ item_id: p.id })) });
     }
 
     function init(){
