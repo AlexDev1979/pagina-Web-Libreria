@@ -25,6 +25,11 @@
     "view_cart": "View cart",
     "empty": "Your cart is empty",
     "open": "Open cart",
-    "close": "Close cart"
+    "close": "Close cart",
+    "note_label": "Order note",
+    "note_placeholder": "Add a note for the seller",
+    "discount_label": "Discount code",
+    "discount_placeholder": "Enter your discount code",
+    "discount_hint": "Discount will apply at checkout"
   }
 }

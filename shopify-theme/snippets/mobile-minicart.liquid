@@ -1,0 +1,17 @@
+<div class="mobile-minicart" data-mobile-minicart>
+  <div class="mini-inner">
+    <button class="mini-open" data-cart-toggle aria-label="{{ 'cart.open' | t }}">
+      🛒 <span data-mini-count>0</span>
+    </button>
+    <div class="mini-subtotal">
+      <span>{{ 'cart.subtotal' | t }}:</span>
+      <strong data-mini-subtotal>—</strong>
+    </div>
+    <div class="mini-actions">
+      <a href="{{ routes.cart_url }}" class="button button-outline">{{ 'cart.view_cart' | t }}</a>
+      <form action="/checkout" method="post">
+        <button type="submit" class="button">{{ 'cart.checkout' | t }}</button>
+      </form>
+    </div>
+  </div>
+</div>

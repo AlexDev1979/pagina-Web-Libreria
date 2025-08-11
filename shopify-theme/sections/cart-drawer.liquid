@@ -13,9 +13,19 @@
         <span>{{ 'cart.subtotal' | t }}</span>
         <strong data-cart-subtotal>—</strong>
       </div>
+      <div class="cart-note">
+        <label for="CartNote">{{ 'cart.note_label' | t }}</label>
+        <textarea id="CartNote" rows="2" placeholder="{{ 'cart.note_placeholder' | t }}" data-cart-note></textarea>
+      </div>
+      <div class="cart-discount">
+        <label for="CartDiscount">{{ 'cart.discount_label' | t }}</label>
+        <input id="CartDiscount" type="text" placeholder="{{ 'cart.discount_placeholder' | t }}" data-cart-discount>
+        <small>{{ 'cart.discount_hint' | t }}</small>
+      </div>
       <div class="cart-actions">
         <a href="{{ routes.cart_url }}" class="button button-outline">{{ 'cart.view_cart' | t }}</a>
         <form action="/checkout" method="post">
+          <input type="hidden" name="discount" value="" data-discount-field>
           <button type="submit" class="button">{{ 'cart.checkout' | t }}</button>
         </form>
       </div>

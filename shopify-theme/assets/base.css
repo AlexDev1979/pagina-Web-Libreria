@@ -66,3 +66,13 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarel
 .cart-empty { color: var(--muted-color); }
 
 @media (max-width: 480px) { .cart-panel { width: 100%; } }
+
+/* Mobile minicart bar */
+.mobile-minicart { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #eee; z-index: 40; display: none; }
+.mobile-minicart .mini-inner { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .5rem 1rem; }
+.mini-open { background: #111827; color: #fff; border: none; border-radius: .375rem; padding: .5rem .75rem; }
+@media (max-width: 768px) { .mobile-minicart { display: block; } }
+
+/* Cart inputs */
+.cart-note textarea, .cart-discount input { width: 100%; border: 1px solid #e5e7eb; border-radius: .375rem; padding: .5rem; margin-top: .25rem; }
+.cart-discount small { display: block; color: var(--muted-color); margin-top: .25rem; }

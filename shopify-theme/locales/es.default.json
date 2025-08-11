@@ -25,6 +25,11 @@
     "view_cart": "Ver carrito",
     "empty": "Tu carrito está vacío",
     "open": "Abrir carrito",
-    "close": "Cerrar carrito"
+    "close": "Cerrar carrito",
+    "note_label": "Nota del pedido",
+    "note_placeholder": "Añade una nota para el vendedor",
+    "discount_label": "Código de descuento",
+    "discount_placeholder": "Introduce tu código",
+    "discount_hint": "El descuento se aplicará en el checkout"
   }
 }

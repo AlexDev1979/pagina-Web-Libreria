@@ -25,17 +25,23 @@
       subtotal: '[data-cart-subtotal]',
       count: '[data-cart-count]',
       toggle: '[data-cart-toggle]',
-      close: '[data-cart-close]'
+      close: '[data-cart-close]',
+      note: '[data-cart-note]',
+      discountInput: '[data-cart-discount]',
+      discountField: '[data-discount-field]',
+      mini: '[data-mobile-minicart]',
+      miniSubtotal: '[data-mini-subtotal]',
+      miniCount: '[data-mini-count]'
     };
 
-    let drawer, overlay, itemsEl, subtotalEl, closeBtn, toggles;
+    let drawer, overlay, itemsEl, subtotalEl, closeBtn, toggles, noteEl, discountInputEl, discountFieldEl, miniEl, miniSubtotalEl, miniCountEl;
 
     function open(){ if (!drawer) return; drawer.classList.add('is-open'); drawer.setAttribute('aria-hidden', 'false'); }
     function close(){ if (!drawer) return; drawer.classList.remove('is-open'); drawer.setAttribute('aria-hidden', 'true'); }
 
     async function getCart(){ const res = await fetch('/cart.js', { headers: { 'Accept':'application/json' } }); return await res.json(); }
 
-    function updateCount(count){ const c = $(selectors.count); if (c) c.textContent = count; }
+    function updateCount(count){ const c = $(selectors.count); if (c) c.textContent = count; if (miniCountEl) miniCountEl.textContent = count; }
 
     function renderItem(item){
       const img = item.image ? `<img src="${item.image.replace(/\.(jpg|jpeg|png|gif)(\?.*)?$/i,'_200x.$1') }" alt="${escapeHtml(item.title)}">` : '';
@@ -65,7 +71,10 @@
         itemsEl.innerHTML = cart.items.map(renderItem).join('');
       }
       subtotalEl.textContent = formatMoney(cart.total_price);
+      if (miniSubtotalEl) miniSubtotalEl.textContent = formatMoney(cart.total_price);
       updateCount(cart.item_count);
+      if (noteEl) noteEl.value = cart.note || '';
+      propagateDiscountToCheckout();
     }
 
     async function refresh(){ const cart = await getCart(); render(cart); return cart; }
@@ -77,6 +86,18 @@
         body: JSON.stringify({ id: key, quantity: Math.max(0, quantity|0) })
       });
       await refresh();
+    }
+
+    async function updateNote(note){
+      await fetch('/cart/update.js', {
+        method: 'POST', headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
+        body: JSON.stringify({ note: note || '' })
+      });
+    }
+
+    function propagateDiscountToCheckout(){
+      if (!discountInputEl || !discountFieldEl) return;
+      discountFieldEl.value = (discountInputEl.value || '').trim();
     }
 
     async function onItemsClick(e){
@@ -103,11 +124,21 @@
       await changeQty(key, qty);
     }
 
+    async function onNoteInput(e){
+      await updateNote(e.target.value);
+    }
+
+    function onDiscountInput(){ propagateDiscountToCheckout(); }
+
     async function onProductFormSubmit(e){
       const form = e.target;
       if (!form.matches('form.product-form')) return;
       e.preventDefault();
       const formData = new FormData(form);
+      const sellingPlan = form.querySelector('[name="selling_plan"]');
+      if (sellingPlan && sellingPlan.value) {
+        formData.set('selling_plan', sellingPlan.value);
+      }
       const res = await fetch('/cart/add.js', { method: 'POST', body: formData, headers: { 'Accept':'application/json' } });
       if (!res.ok){ console.error('Add to cart failed'); return; }
       await refresh();
@@ -122,6 +153,8 @@
         itemsEl.addEventListener('click', onItemsClick);
         itemsEl.addEventListener('change', onItemsChange);
       }
+      if (noteEl) noteEl.addEventListener('input', onNoteInput);
+      if (discountInputEl) discountInputEl.addEventListener('input', onDiscountInput);
       document.addEventListener('submit', onProductFormSubmit, true);
     }
 
@@ -133,6 +166,12 @@
       subtotalEl = $(selectors.subtotal, drawer);
       closeBtn = $(selectors.close, drawer);
       toggles = $all(selectors.toggle);
+      noteEl = $(selectors.note, drawer);
+      discountInputEl = $(selectors.discountInput, drawer);
+      discountFieldEl = $(selectors.discountField, drawer);
+      miniEl = $(selectors.mini);
+      miniSubtotalEl = $(selectors.miniSubtotal);
+      miniCountEl = $(selectors.miniCount);
       attach();
       refresh();
       console.log('Ajax cart initialized');
