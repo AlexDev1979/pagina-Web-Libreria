@@ -1,0 +1,32 @@
+<section class="cart-drawer" aria-hidden="true" data-cart-drawer>
+  <div class="cart-overlay" data-cart-overlay></div>
+  <aside class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="CartDrawer-Title">
+    <header class="cart-header">
+      <h2 id="CartDrawer-Title">{{ 'cart.title' | t }}</h2>
+      <button type="button" class="cart-close" aria-label="{{ 'cart.close' | t }}" data-cart-close>×</button>
+    </header>
+    <div class="cart-body" data-cart-items>
+      <!-- Items rendered by JS -->
+    </div>
+    <footer class="cart-footer">
+      <div class="cart-subtotal">
+        <span>{{ 'cart.subtotal' | t }}</span>
+        <strong data-cart-subtotal>—</strong>
+      </div>
+      <div class="cart-actions">
+        <a href="{{ routes.cart_url }}" class="button button-outline">{{ 'cart.view_cart' | t }}</a>
+        <form action="/checkout" method="post">
+          <button type="submit" class="button">{{ 'cart.checkout' | t }}</button>
+        </form>
+      </div>
+    </footer>
+  </aside>
+</section>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": [],
+  "presets": [ { "name": "Cart drawer" } ]
+}
+{% endschema %}

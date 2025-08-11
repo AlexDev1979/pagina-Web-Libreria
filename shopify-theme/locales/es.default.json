@@ -17,5 +17,14 @@
     "product_grid": {
       "select_collection": "Selecciona una colección en los ajustes de la sección"
     }
+  },
+  "cart": {
+    "title": "Tu carrito",
+    "subtotal": "Subtotal",
+    "checkout": "Finalizar compra",
+    "view_cart": "Ver carrito",
+    "empty": "Tu carrito está vacío",
+    "open": "Abrir carrito",
+    "close": "Cerrar carrito"
   }
 }

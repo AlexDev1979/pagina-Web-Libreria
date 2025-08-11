@@ -11,6 +11,13 @@
     </title>
     {{ content_for_header }}
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script>
+      window.themeMoneyFormat = {{ shop.money_format | json }};
+      window.themeCurrency = {{ shop.currency | json }};
+      window.themeStrings = {
+        'cart.empty': {{ 'cart.empty' | t | json }}
+      };
+    </script>
   </head>
   <body>
     {% section 'header' %}
@@ -18,6 +25,7 @@
       {{ content_for_layout }}
     </main>
     {% section 'footer' %}
+    {% section 'cart-drawer' %}
     {{ 'theme.js' | asset_url | script_tag }}
   </body>
 </html>

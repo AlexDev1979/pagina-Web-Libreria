@@ -16,7 +16,7 @@
       <h1>{{ product.title }}</h1>
       <p class="price">{{ product.price | money }}</p>
 
-      {% form 'product', product %}
+      {% form 'product', product, class: 'product-form', id: 'product-form' %}
         {% if product.has_only_default_variant %}
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
         {% else %}

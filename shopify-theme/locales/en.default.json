@@ -17,5 +17,14 @@
     "product_grid": {
       "select_collection": "Select a collection in the section settings"
     }
+  },
+  "cart": {
+    "title": "Your cart",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "view_cart": "View cart",
+    "empty": "Your cart is empty",
+    "open": "Open cart",
+    "close": "Close cart"
   }
 }

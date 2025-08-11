@@ -19,6 +19,15 @@
         </ul>
       </nav>
     {% endif %}
+
+    <button class="cart-button" data-cart-toggle aria-label="{{ 'cart.open' | t }}">
+      <svg class="cart-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M6 6h15l-1.5 9h-13z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
+        <circle cx="18" cy="20" r="1.5" fill="currentColor"/>
+      </svg>
+      <span class="cart-count-bubble" data-cart-count>0</span>
+    </button>
   </div>
 </header>
 
