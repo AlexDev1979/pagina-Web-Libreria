@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1.5rem;
+        }
+
+        .logo h1 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .logo p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-link:hover::before {
+            left: 100%;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            fill: currentColor;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .user-details h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .user-details p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .content-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            min-height: 500px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .welcome-message h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .welcome-message p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .content-area {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-area {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        /* Scrollbar personalizada */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <h1>AdminPanel</h1>
+                <p>Sistema de Gestión</p>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="dashboard">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                            </svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="login">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-0.9 2-2V5c0-1.1-0.9-2-2-2h-8v2h8v12z"/>
+                            </svg>
+                            Gestión de Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="productos">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M7 18c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-0.16 0.28-0.25 0.61-0.25 0.96 0 1.1 0.9 2 2 2h12v-2H7.42c-0.14 0-0.25-0.11-0.25-0.25l0.03-0.12L8.1 13h7.45c0.75 0 1.41-0.41 1.75-1.03L21.7 4H5.21l-0.94-2H1zm16 16c-1.1 0-2 0.9-2 2s0.9 2 2 2 2-0.9 2-2-0.9-2-2-2z"/>
+                            </svg>
+                            Productos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="compras">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M19 7h-3V6c0-1.1-0.9-2-2-2h-4c-1.1 0-2 0.9-2 2v1H5c-1.1 0-2 0.9-2 2v9c0 1.1 0.9 2 2 2h14c1.1 0 2-0.9 2-2V9c0-1.1-0.9-2-2-2zM10 6h4v1h-4V6zm9 12H5V9h2v1c0 0.55 0.45 1 1 1s1-0.45 1-1V9h6v1c0 0.55 0.45 1 1 1s1-0.45 1-1V9h2v9z"/>
+                            </svg>
+                            Compras
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="metricas">
+                            <svg class="nav-icon" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h14c1.1 0 2-0.9 2-2V5c0-1.1-0.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                            </svg>
+                            Métricas
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <header class="header">
+                <div class="header-top">
+                    <button class="hamburger" id="hamburger">☰</button>
+                    <div class="user-info">
+                        <div class="user-avatar">AD</div>
+                        <div class="user-details">
+                            <h3>Administrador</h3>
+                            <p>Sistema de Gestión</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-header">
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                    <p class="page-subtitle" id="pageSubtitle">Panel de control principal</p>
+                </div>
+            </header>
+
+            <div class="content-area" id="contentArea">
+                <div class="welcome-message">
+                    <h2>¡Bienvenido al Panel de Administración!</h2>
+                    <p>Selecciona una opción del menú lateral para comenzar a gestionar tu sistema. Aquí encontrarás todas las herramientas necesarias para administrar usuarios, productos, compras y métricas de tu plataforma.</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">1,234</div>
+                            <div class="stat-label">Usuarios Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">567</div>
+                            <div class="stat-label">Productos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">89</div>
+                            <div class="stat-label">Compras Hoy</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">$12,345</div>
+                            <div class="stat-label">Ingresos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Datos de contenido para cada sección
+        const sectionContent = {
+            dashboard: {
+                title: "Dashboard",
+                subtitle: "Panel de control principal",
+                content: `
+                    <div class="welcome-message">
+                        <h2>¡Bienvenido al Panel de Administración!</h2>
+                        <p>Selecciona una opción del menú lateral para comenzar a gestionar tu sistema. Aquí encontrarás todas las herramientas necesarias para administrar usuarios, productos, compras y métricas de tu plataforma.</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">1,234</div>
+                                <div class="stat-label">Usuarios Activos</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">567</div>
+                                <div class="stat-label">Productos</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">89</div>
+                                <div class="stat-label">Compras Hoy</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">$12,345</div>
+                                <div class="stat-label">Ingresos</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            login: {
+                title: "Gestión de Login",
+                subtitle: "Administrar usuarios y sesiones",
+                content: `
+                    <div style="color: white; text-align: center; padding: 2rem;">
+                        <h2 style="margin-bottom: 1rem;">Gestión de Usuarios y Sesiones</h2>
+                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Administra los usuarios del sistema, permisos y sesiones activas.</p>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; margin: 2rem 0;">
+                            <h3 style="margin-bottom: 1rem;">Funcionalidades Disponibles:</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Usuarios Activos</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Gestionar sesiones</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Permisos</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Roles y accesos</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Seguridad</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Logs de acceso</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            productos: {
+                title: "Gestión de Productos",
+                subtitle: "Administrar catálogo de productos",
+                content: `
+                    <div style="color: white; text-align: center; padding: 2rem;">
+                        <h2 style="margin-bottom: 1rem;">Catálogo de Productos</h2>
+                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Administra tu inventario, precios y categorías de productos.</p>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; margin: 2rem 0;">
+                            <h3 style="margin-bottom: 1rem;">Herramientas de Gestión:</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Inventario</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Stock y disponibilidad</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Precios</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Gestión de precios</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Categorías</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Organización</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            compras: {
+                title: "Gestión de Compras",
+                subtitle: "Administrar órdenes y transacciones",
+                content: `
+                    <div style="color: white; text-align: center; padding: 2rem;">
+                        <h2 style="margin-bottom: 1rem;">Sistema de Compras</h2>
+                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Gestiona órdenes, pagos y el historial de transacciones.</p>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; margin: 2rem 0;">
+                            <h3 style="margin-bottom: 1rem;">Control de Transacciones:</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Órdenes</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Gestión de pedidos</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Pagos</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Transacciones</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Historial</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Registros completos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            metricas: {
+                title: "Métricas y Análisis",
+                subtitle: "Reportes y estadísticas del sistema",
+                content: `
+                    <div style="color: white; text-align: center; padding: 2rem;">
+                        <h2 style="margin-bottom: 1rem;">Centro de Análisis</h2>
+                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Analiza el rendimiento de tu plataforma con métricas detalladas.</p>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; margin: 2rem 0;">
+                            <h3 style="margin-bottom: 1rem;">Reportes Disponibles:</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Ventas</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Análisis de ingresos</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Usuarios</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Comportamiento</span>
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px;">
+                                    <strong>Productos</strong><br>
+                                    <span style="color: rgba(255,255,255,0.7);">Rendimiento</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Elementos del DOM
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const pageTitle = document.getElementById('pageTitle');
+        const pageSubtitle = document.getElementById('pageSubtitle');
+        const contentArea = document.getElementById('contentArea');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Toggle sidebar en móvil
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+        });
+
+        // Cerrar sidebar al hacer click fuera en móvil
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                sidebar.classList.remove('show');
+            }
+        });
+
+        // Navegación entre secciones
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remover clase activa de todos los enlaces
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                
+                // Agregar clase activa al enlace clickeado
+                link.classList.add('active');
+                
+                // Obtener la sección
+                const section = link.dataset.section;
+                const sectionData = sectionContent[section];
+                
+                // Actualizar contenido
+                if (sectionData) {
+                    pageTitle.textContent = sectionData.title;
+                    pageSubtitle.textContent = sectionData.subtitle;
+                    contentArea.innerHTML = sectionData.content;
+                }
+                
+                // Cerrar sidebar en móvil después de seleccionar
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        });
+
+        // Responsive behavior
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librería Escolar - E-commerce</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css">
+    <link rel="stylesheet" href="footer.css" />
+    <link rel="stylesheet" href="css-cart.css" />
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                  <img src="img/Logo para pagina sin fondo.png"
+                     width="30" 
+                     height="30">
+                </div>
+                <span>Librería y variedades any</span>
+            </a>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li class="nav-item">
+                        <a href="#inicio" class="nav-link active">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="Productos.html" class="nav-link active">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#categorias" class="nav-link">Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#blog" class="nav-link">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contacto" class="nav-link">Contacto</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="mobile-menu" id="mobileMenu">
+                <ul>
+                    <li><a href="#inicio" class="active">Inicio</a></li>
+                    <li><a href="Productos.html">Productos</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner de utilidades -->
+    <section class="utility-banner">
+        <div class="utility-container">
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" placeholder="Buscar libros, útiles escolares..." class="search-input">
+                    <button class="search-btn">
+                        <span class="search-icon">🔍</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="user-actions">
+                <a href="Login.html" class="login-btn" role="button">
+                    <span class="login-icon">👤</span>
+                    <span class="login-text">Iniciar Sesión</span>
+                </a>
+                
+                <div class="carrito-link">
+                    <a href="carrito.html">
+                        🛒 Carrito (<span id="contador-items">0</span>)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Hero -->
+    <section class="hero" id="inicio">
+        <div class="hero-decorative">
+            <div class="floating-element">📚</div>
+            <div class="floating-element">✏️</div>
+            <div class="floating-element">🎒</div>
+        </div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Todo lo que necesitas para el éxito escolar</h1>
+                <p class="hero-subtitle">
+                    Descubre nuestra amplia selección de libros, útiles escolares y materiales educativos. 
+                    Calidad garantizada, precios accesibles y envío rápido a todo el país.
+                </p>
+                
+                <div class="hero-cta">
+                    <a href="#categorias" class="cta-primary">
+                        <span class="cta-icon">🛍️</span>
+                        Explorar Catálogo
+                    </a>
+                    <a href="#ofertas" class="cta-secondary">
+                        <span class="cta-icon">⚡</span>
+                        Ver Ofertas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Categorías -->
+    <section class="categories" id="categorias">
+        <div class="categories-container">
+            <h2 class="section-title">Nuestras Categorías</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="img/dibujo-240x280-240x280.png" alt="Materiales de Dibujo">
+                    </div>
+                    <h3 class="category-title">DIBUJO</h3>
+                    <p class="category-description">Lápices, colores, pinceles y todo lo necesario para el arte</p>
+                    <a href="#dibujo" class="category-link">Ver productos</a>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Mochilas Escolares">
+                    </div>
+                    <h3 class="category-title">MOCHILAS</h3>
+                    <p class="category-description">Mochilas resistentes y cómodas para todas las edades</p>
+                    <a href="#mochilas" class="category-link">Ver productos</a>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="img/2692a405-9b41-4eac-841c-8bee40a64579.9cd82f828fcc6f75daa187ec0fcd3e07.webp" alt="Agendas y Cuadernos">
+                    </div>
+                    <h3 class="category-title">AGENDAS</h3>
+                    <p class="category-description">Agendas, cuadernos y libretas para organizar tu estudio</p>
+                    <a href="#agendas" class="category-link">Ver productos</a>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="img/tipos_impresoras_multifuncional.png" alt="Impresoras">
+                    </div>
+                    <h3 class="category-title">IMPRESORAS</h3>
+                    <p class="category-description">Impresoras y consumibles para tus proyectos</p>
+                    <a href="#impresoras" class="category-link">Ver productos</a>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Globos para Fiestas">
+                    </div>
+                    <h3 class="category-title">GLOBOS</h3>
+                    <p class="category-description">Globos y decoraciones para celebraciones especiales</p>
+                    <a href="#globos" class="category-link">Ver productos</a>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Globos para Fiestas">
+                    </div>
+                    <h3 class="category-title">Cuadernos</h3>
+                    <p class="category-description">Cuadernos escolares y universitarios</p>
+                    <a href="Productos.html" class="category-link">Ver productos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficios de la tienda -->
+    <section class="benefits-banner">
+        <div class="benefits-container">
+            <!-- Envío Gratis -->
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <img src="img/entrega (1).png" width="30" height="30" alt="Envío Gratis">
+                </div>
+                <div class="benefit-text">
+                    <h4>Envío Gratis</h4>
+                    <p>en compras mayores a Q100, en zonas de cobertura</p>
+                </div>
+            </div>
+
+            <!-- Compra en línea -->
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <img src="img/carrito-de-compras.png" width="30" height="30" alt="Compra en línea">
+                </div>
+                <div class="benefit-text">
+                    <h4>Compra en línea</h4>
+                    <p>fácil y sin colas</p>
+                </div>
+            </div>
+
+            <!-- Compra segura -->
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <img src="img/seguro-de-calidad.png" width="30" height="30" alt="Compra Segura">
+                </div>
+                <div class="benefit-text">
+                    <h4>Compra Segura</h4>
+                    <p>Sitio protegido</p>
+                </div>
+            </div>
+
+            <!-- Envíos seguros -->
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <img src="img/seguro-de-entrega.png" width="30" height="30" alt="Envíos Seguros">
+                </div>
+                <div class="benefit-text">
+                    <h4>Envíos Seguros</h4>
+                    <p>Recibe en tu casa u oficina</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Productos -->
+    <section class="products-section" id="Listaproductos">
+        <div class="products-container">
+            <h2 class="section-title">Nuestros Productos</h2>
+            
+            <!-- Filtros de productos -->
+            <div class="product-filters">
+                <button class="filter-btn active" data-filter="recomendados">RECOMENDADOS</button>
+                <button class="filter-btn" data-filter="mas-vendidos">MÁS VENDIDOS</button>
+            </div>
+
+            <!-- Grid de productos -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Producto 1 -->
+                <div class="product-card" 
+                     data-id="1" 
+                     data-name='SOBRE MANILA IRASA 6003 ENG OMADO 9X12" CARTA (10X50)' 
+                     data-price="0.90"
+                     data-category="recomendados">
+                    <div class="product-image">
+                        <img src="img/6804a1c705866_07308-1000x1000.jpg" alt="Sobre Manila">
+                        <div class="product-badge">¡CÓMPRALO YA!</div>
+                    </div>
+                    
+                    <div class="product-info">
+                        <p class="product-brand">Marca: <span>IRASA</span></p>
+                        <p class="product-model">Modelo: 12124</p>
+                        <h3 class="product-name">SOBRE MANILA IRASA 6003 ENG OMADO 9X12" CARTA (10X50)</h3>
+                        <p class="product-price">Q0.90</p>
+                        
+                        <div class="product-actions">
+                            <div class="quantity-selector">
+                                <input type="number" value="1" min="1" class="quantity-input">
+                            </div>
+                            <button class="add-to-cart-btn" type="button" data-id="1">Agregar al Carrito</button>
+                            <button class="favorite-btn">♡</button>
+                            <button class="compare-btn">⚖</button>
+                        </div>
+                        
+                        <p class="buy-now">✓ Comprar Ahora</p>
+                    </div>
+                </div>
+
+                <!-- Producto 2 -->
+                <div class="product-card" data-category="mas-vendidos">
+                    <div class="product-image">
+                        <img src="img/6804a1c705866_07308-1000x1000.jpg" alt="Sobre Manila Oficio">
+                        <div class="product-badge">¡CÓMPRALO YA!</div>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-brand">Marca: <span>IRASA</span></p>
+                        <p class="product-model">Modelo: 07308</p>
+                        <h3 class="product-name">SOBRE MANILA IRASA 6005 ENG OMADO 10X15" OFICIO (10X50)</h3>
+                        <p class="product-price">Q1.05</p>
+                        <div class="product-actions">
+                            <div class="quantity-selector">
+                                <input type="number" value="1" min="1" class="quantity-input">
+                            </div>
+                            <button class="add-to-cart-btn" type="button" data-id="2">Agregar al Carrito</button>
+                            <button class="favorite-btn">♡</button>
+                            <button class="compare-btn">⚖</button>
+                        </div>
+                        <p class="buy-now">✓ Comprar Ahora</p>
+                    </div>
+                </div>
+
+                <!-- Producto 3 -->
+                <div class="product-card" data-category="recomendados">
+                    <div class="product-image">
+                        <img src="img/tipos_impresoras_multifuncional.png" alt="Cartulina">
+                        <div class="product-badge">¡CÓMPRALO YA!</div>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-brand">Marca: <span>FAST</span></p>
+                        <p class="product-model">Modelo: 18417-ROJO NAVIDAD</p>
+                        <h3 class="product-name">CARTULINA ARIEL COVER FAST 180G 50X65CM 41 ROJO NAV (6X50)</h3>
+                        <p class="product-price">Q3.00</p>
+                        <div class="product-actions">
+                            <div class="quantity-selector">
+                                <input type="number" value="1" min="1" class="quantity-input">
+                            </div>
+                            <button class="add-to-cart-btn" type="button" data-id="3">Agregar al Carrito</button>
+                            <button class="favorite-btn">♡</button>
+                            <button class="compare-btn">⚖</button>
+                        </div>
+                        <p class="buy-now">✓ Comprar Ahora</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón Mostrar Más -->
+            <div class="show-more-container">
+                <button class="show-more-btn" id="showMoreBtn">
+                    <span>Mostrar Más</span>
+                    <span class="arrow">↓</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Marcas -->
+    <section class="brands" id="marcas">
+        <div class="brands-container">
+            <h2 class="section-title">Nuestras Marcas</h2>
+            <p class="section-subtitle">Trabajamos con las mejores marcas para ofrecerte productos de calidad</p>
+            
+            <div class="brands-swiper-container">
+                <div class="swiper brands-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/vivo.png" alt="AMPO">
+                                </div>
+                                <h3 class="brand-name">Vivo</h3>
+                                <p class="brand-description">Líderes en productos de oficina</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/Mongol.png" alt="KREA">
+                                </div>
+                                <h3 class="brand-name">Mongol</h3>
+                                <p class="brand-description">Creatividad e innovación</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/Paper_mate_textlogo.svg.png" alt="AZOR">
+                                </div>
+                                <h3 class="brand-name">Paper Mate</h3>
+                                <p class="brand-description">Tecnología y calidad</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/Maped.png" alt="Beautone">
+                                </div>
+                                <h3 class="brand-name">Maped</h3>
+                                <p class="brand-description">Belleza y funcionalidad</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/image-Photoroom (9).png" alt="BOLIK">
+                                </div>
+                                <h3 class="brand-name">BOLIK</h3>
+                                <p class="brand-description">Resistencia y durabilidad</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/Canon.png" alt="Canon">
+                                </div>
+                                <h3 class="brand-name">Canon</h3>
+                                <p class="brand-description">Impresión profesional</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/Casio.png" alt="CASIO">
+                                </div>
+                                <h3 class="brand-name">CASIO</h3>
+                                <p class="brand-description">Precisión y tecnología</p>
+                            </div>
+                        </div>
+                        
+                        <div class="swiper-slide">
+                            <div class="brand-card">
+                                <div class="brand-logo">
+                                    <img src="img/HP.png" alt="HP">
+                                </div>
+                                <h3 class="brand-name">HP</h3>
+                                <p class="brand-description">Tecnología confiable</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navegación -->
+                    <div class="swiper-button-next brands-next"></div>
+                    <div class="swiper-button-prev brands-prev"></div>
+                    
+                    <!-- Paginación -->
+                    <div class="swiper-pagination brands-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="footer-section">
+                <h3>Horarios</h3>
+                <p><strong>Horario Librería:</strong><br>
+                Lunes a viernes 7:00 - 6:00 pm. <br>
+                Sábado 8:00 - 2:00 pm.</p>
+                <p><strong>Horario Mayoreo:</strong><br>
+                Lunes a viernes: 7:00 - 6:00 pm. <br>
+                Sábado: 8:00 - 12:30 pm.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Dirección</h3>
+                <p>6ta. Avenida 7-45 zona 9 168<br>
+                parqueos bajo techo, con seguridad</p>
+                <p><strong>Ubicación con Waze</strong> <a href="#" target="_blank">¡Click Aquí!</a></p>
+                <img src="img/0074574_papel-75grs-colores-pasteles-22x28cms-pointer-paquete-100-unidades-4-colores-pastel-0_510.webp" alt="Mapa Waze" class="map-img"/>
+            </div>
+
+            <div class="footer-section">
+                <h3>Nosotros</h3>
+                <ul>
+                    <li><a href="#">Sobre Nosotros</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li><a href="#">Trabaja con nosotros</a></li>
+                    <li><strong>PBX:</strong> 2410 - 9696</li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Registro al Boletín</h3>
+                <p>Mantente al día de novedades y promociones suscribiéndote a nuestro boletín</p>
+                <form id="newsletter-form">
+                    <input type="email" placeholder="Email" required />
+                    <button type="submit">📩 ENVIAR</button>
+                    <label>
+                        <input type="checkbox" required />
+                        He leído y acepto las <a href="#">Políticas de privacidad</a>
+                    </label>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 Librería y Variedades Any. Todos los derechos reservados.</p>
+            <div class="payment-icons">
+                <img src="https://img.icons8.com/color/48/visa.png" alt="Visa" />
+                <img src="https://img.icons8.com/color/48/mastercard-logo.png" alt="MasterCard" />
+                <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal" />
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
+    <script src="productos.js"></script>
+    <script src="script.js"></script>
+    <script src="checkout.js"></script>
+    <script src="js-cart.js"></script>
+    <script src="footer.js"></script>
+    <script src="Productos.js"></script>
+    <script>
+    // Función para agregar productos al carrito
+    function addToCart(event) {
+        const button = event.currentTarget;
+        const productCard = button.closest('.product-card');
+        const productId = button.dataset.id;
+        const productName = productCard.querySelector('.product-name').textContent;
+        const productPrice = parseFloat(
+            productCard.querySelector('.product-price').textContent.replace('Q', '')
+        );
+        const productImg = productCard.querySelector('.product-image img').src;
+        
+        // Obtener carrito existente o crear uno nuevo
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Verificar si el producto ya está en el carrito
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                img: productImg,
+                quantity: 1
+            });
+        }
+        
+        // Guardar en localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Actualizar contador
+        updateCartCount();
+        
+        // Mostrar alerta
+        showAlert('Producto agregado al carrito', 'success');
+    }
+
+    // Actualizar contador del carrito
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        document.getElementById('contador-items').textContent = totalItems;
+    }
+
+    // Mostrar alerta
+    function showAlert(message, type) {
+    // Crear estilos CSS si no existen
+    if (!document.getElementById('cart-alert-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'cart-alert-styles';
+        styles.textContent = `
+            .cart-alert {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                z-index: 1000;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                transform: translateX(400px);
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .cart-alert.show {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            
+            .cart-alert::before {
+                content: '🛒';
+                font-size: 18px;
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+
+    // Crear elemento de alerta
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'cart-alert';
+    alertDiv.textContent = message;
+
+    // Agregar al DOM
+    document.body.appendChild(alertDiv);
+
+    // Mostrar la alerta
+    setTimeout(() => alertDiv.classList.add('show'), 100);
+
+    // Remover después de 3 segundos
+    setTimeout(() => {
+        alertDiv.classList.remove('show');
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.parentNode.removeChild(alertDiv);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Uso:
+// showAlert('Producto agregado al carrito', 'success');
+
+    // Inicializar eventos al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        // Agregar eventos a los botones
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', addToCart);
+        });
+        const productLinks = document.querySelectorAll('a[href="Productos.html"], a[href="/Productos.html"], a[href="Productos"]');
+    
+    productLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'Productos.html';
+            
+            // Si falla, intenta alternativas después de 1 segundo
+            setTimeout(() => {
+                if (window.location.pathname.indexOf('Productos') === -1) {
+                    window.location.href = './Productos.html';
+                }
+            }, 1000);
+        });
+    });
+        
+        // Actualizar contador inicial
+        updateCartCount();
+    });
+</script>
+
+</body>
+</html>

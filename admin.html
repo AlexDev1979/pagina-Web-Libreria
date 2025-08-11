@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel de Administración</title>
+  <style>
+    body {
+      font-family: Poppins, roboto;
+      background: #f5f5f5;
+      padding: 2rem;
+    }
+
+    .admin-form {
+      background: #fff;
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .admin-form h2 {
+      margin-bottom: 1rem;
+    }
+
+    .admin-form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    .admin-form input, .admin-form textarea, .admin-form select {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .admin-form button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.5rem;
+      background: #1e88e5;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .admin-form button:hover {
+      background: #1565c0;
+    }
+
+    .admin-form button.cancel {
+      background: #757575;
+    }
+
+    .admin-form button.cancel:hover {
+      background: #616161;
+    }
+
+    .admin-form img.preview {
+      margin-top: 1rem;
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    .admin-form input[type="date"] {
+      padding: 0.7rem;
+    }
+
+    .admin-form select {
+      background: #fff;
+    }
+
+    .stock-label {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .disponible {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .alerta {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .agotado {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .proximamente {
+      background-color: #e2e3e5;
+      color: #383d41;
+    }
+
+    /* Estilos para la lista de productos */
+    .products-list {
+      background: #fff;
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .products-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .products-table th,
+    .products-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .products-table th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    .products-table tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+
+    .products-table tr:hover {
+      background-color: #e3f2fd;
+    }
+
+    .btn-edit {
+      background: #ffa726;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .btn-edit:hover {
+      background: #ff9800;
+    }
+
+    .btn-delete {
+      background: #ef5350;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-delete:hover {
+      background: #f44336;
+    }
+
+    .product-image {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .no-products {
+      text-align: center;
+      padding: 2rem;
+      color: #666;
+    }
+
+    .error {
+      color: #d32f2f;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .success {
+      color: #2e7d32;
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .stock-info {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      border-left: 4px solid #1e88e5;
+    }
+
+    .stock-info h4 {
+      margin-top: 0;
+      color: #1e88e5;
+    }
+
+    .stock-info p {
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    .current-stock-status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+    .item-price, .item-subtotal {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.quantity-input {
+  width: 60px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.remove-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.remove-btn:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
+  </style>
+</head>
+<body>
+
+  <form class="admin-form" id="productForm">
+    <h2 id="formTitle">Agregar Nuevo Producto</h2>
+
+    <!-- Información básica -->
+    <label for="nombre">Nombre del Producto</label>
+    <input type="text" id="nombre" required>
+
+    <label for="marca">Marca</label>
+    <input type="text" id="marca" required>
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" rows="2" required></textarea>
+
+    <!-- Códigos -->
+    <div class="form-row">
+      <div class="col">
+        <label for="codigo-sku">SKU</label>
+        <input type="text" id="codigo-sku" required>
+      </div>
+      <div class="col">
+        <label for="codigo-barras">Código de Barras</label>
+        <input type="text" id="codigo-barras" required>
+      </div>
+    </div>
+
+    <!-- Precios -->
+    <div class="form-row">
+      <div class="col">
+        <label for="costo">Costo (Q)</label>
+        <input type="number" id="costo" step="0.01" min="0" required>
+      </div>
+      <div class="col">
+        <label for="precio">Precio (Q)</label>
+        <input type="number" id="precio" step="0.01" min="0" required>
+      </div>
+      <div class="col">
+        <label for="precio-comparacion">Precio Comparación (Q)</label>
+        <input type="number" id="precio-comparacion" step="0.01" min="0">
+      </div>
+    </div>
+
+    <!-- Oferta -->
+    <div class="form-row">
+      <div class="col">
+        <label for="oferta-activa">¿Oferta activa?</label>
+        <select id="oferta-activa">
+          <option value="no">No</option>
+          <option value="si">Sí</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="fecha-expira">Fecha de Expiración</label>
+        <input type="date" id="fecha-expira">
+      </div>
+    </div>
+
+    <!-- Stock -->
+    <div class="form-row">
+      <div class="col">
+        <label for="stockMax">Stock Máximo</label>
+        <input type="number" id="stockMax" min="0" required>
+      </div>
+      <div class="col">
+        <label for="stockMin">Stock Mínimo</label>
+        <input type="number" id="stockMin" min="0" required>
+      </div>
+      <div class="col">
+        <label for="stockActual">Stock Actual</label>
+        <input type="number" id="stockActual" min="0" required>
+      </div>
+    </div>
+
+    <!-- Información de stock actual -->
+    <div class="stock-info" id="stockInfo" style="display: none;">
+      <h4>📦 Estado del Stock</h4>
+      <p id="stockStatusText">Estado actual: <span id="currentStockStatus" class="current-stock-status">Calculando...</span></p>
+      <p><strong>Nota:</strong> El estado se calcula automáticamente basado en el stock actual.</p>
+    </div>
+
+    <!-- Imagen y categoría -->
+    <label for="imagen">URL de Imagen (URL o Local: img/archivo.jpg)</label>
+    <input type="text" id="imagen" placeholder="https://... o img/archivo.jpg" required/>
+    <img id="imgPreview" class="preview" src="#" alt="Vista previa" style="display:none;" />
+
+    <label for="categoria">Categoría</label>
+    <select id="categoria">
+      <option value="recomendados">Recomendados</option>
+      <option value="mas-vendidos">Más Vendidos</option>
+      <option value="mochilas">Mochilas</option>
+      <option value="papeleria">Papelería</option>
+      <option value="cuadernos">Cuadernos</option>
+      <option value="escritura">Escritura</option>
+      <option value="libros">Libros y Diccionarios</option>
+    </select>
+
+    <!-- Estado manual solo para casos especiales -->
+    <label for="estado">Estado Manual (opcional)</label>
+    <select id="estado">
+      <option value="auto">Automático (basado en stock)</option>
+      <option value="disponible">Forzar: Disponible</option>
+      <option value="agotado">Forzar: Agotado</option>
+      <option value="proximamente">Forzar: Próximamente</option>
+    </select>
+    <small style="color: #666; font-size: 0.85rem;">
+      💡 Recomendado mantener en "Automático" para que el sistema calcule el estado basado en el stock actual.
+    </small>
+
+    <div id="message"></div>
+
+    <button type="submit" id="submitBtn">Guardar Producto</button>
+    <button type="button" id="cancelBtn" class="cancel" style="display: none;">Cancelar</button>
+  </form>
+
+  <div class="products-list">
+    <h2>Lista de Productos</h2>
+    <div id="productsContainer">
+      <div class="no-products">No hay productos registrados</div>
+    </div>
+  </div>
+
+  <script>
+    let editingId = null;
+    const form = document.getElementById('productForm');
+    const imgInput = document.getElementById('imagen');
+    const imgPreview = document.getElementById('imgPreview');
+    const formTitle = document.getElementById('formTitle');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const messageDiv = document.getElementById('message');
+    const productsContainer = document.getElementById('productsContainer');
+    const stockInfo = document.getElementById('stockInfo');
+    const stockStatusText = document.getElementById('stockStatusText');
+    const currentStockStatus = document.getElementById('currentStockStatus');
+
+    // Función para mostrar mensajes
+    function showMessage(message, type = 'success') {
+      messageDiv.innerHTML = `<div class="${type}">${message}</div>`;
+      setTimeout(() => {
+        messageDiv.innerHTML = '';
+      }, 3000);
+    }
+
+    // Función para validar URL de imagen
+    function validateImageUrl(url) {
+      const urlPattern = /^(https?:\/\/|img\/)/;
+      return urlPattern.test(url);
+    }
+
+    // Preview de imagen
+    imgInput.addEventListener('input', () => {
+      const value = imgInput.value.trim();
+      if (value && validateImageUrl(value)) {
+        imgPreview.src = value;
+        imgPreview.style.display = 'block';
+        imgPreview.onerror = () => {
+          imgPreview.style.display = 'none';
+          showMessage('Error al cargar la imagen', 'error');
+        };
+      } else {
+        imgPreview.style.display = 'none';
+      }
+    });
+
+    // Función para validar SKU único
+    function validateUniqueFields(sku, codigoBarras, excludeId = null) {
+      const productos = JSON.parse(localStorage.getItem('productos')) || [];
+      const duplicateSku = productos.find(p => p.sku === sku && p.id !== excludeId);
+      const duplicateBarcode = productos.find(p => p.codigoBarras === codigoBarras && p.id !== excludeId);
+      
+      if (duplicateSku) {
+        showMessage('El SKU ya existe en otro producto', 'error');
+        return false;
+      }
+      if (duplicateBarcode) {
+        showMessage('El código de barras ya existe en otro producto', 'error');
+        return false;
+      }
+      return true;
+    }
+
+    // Función para validar precios
+    function validatePrices(costo, precio, precioComparacion) {
+      if (precio <= costo) {
+        showMessage('El precio de venta debe ser mayor al costo', 'error');
+        return false;
+      }
+      if (precioComparacion && precioComparacion <= precio) {
+        showMessage('El precio de comparación debe ser mayor al precio de venta', 'error');
+        return false;
+      }
+      return true;
+    }
+
+    // Función para validar stock
+    function validateStock(stockMin, stockMax, stockActual) {
+      if (stockMin >= stockMax) {
+        showMessage('El stock mínimo debe ser menor al stock máximo', 'error');
+        return false;
+      }
+      if (stockActual > stockMax) {
+        showMessage('El stock actual no puede ser mayor al stock máximo', 'error');
+        return false;
+      }
+      return true;
+    }
+
+    // Función para obtener el estado del stock CORREGIDA
+    function getStockStatus(stockActual, stockMin, manualState = 'auto') {
+      // Si hay un estado manual específico, usarlo
+      if (manualState !== 'auto') {
+        return manualState;
+      }
+      
+      // Cálculo automático basado en stock
+      if (stockActual === 0) return 'agotado';
+      if (stockActual <= stockMin) return 'alerta';
+      return 'disponible';
+    }
+
+    // Función para actualizar la información del stock en tiempo real
+    function updateStockInfo() {
+      const stockActual = parseInt(document.getElementById('stockActual').value) || 0;
+      const stockMin = parseInt(document.getElementById('stockMin').value) || 0;
+      const stockMax = parseInt(document.getElementById('stockMax').value) || 0;
+      const estadoManual = document.getElementById('estado').value;
+
+      if (stockActual >= 0 && stockMin >= 0 && stockMax >= 0) {
+        stockInfo.style.display = 'block';
+        
+        const status = getStockStatus(stockActual, stockMin, estadoManual);
+        let statusText = '';
+        let statusClass = '';
+
+        switch (status) {
+          case 'agotado':
+            statusText = 'Agotado';
+            statusClass = 'agotado';
+            break;
+          case 'alerta':
+            statusText = 'Bajo Stock';
+            statusClass = 'alerta';
+            break;
+          case 'disponible':
+            statusText = 'Disponible';
+            statusClass = 'disponible';
+            break;
+          case 'proximamente':
+            statusText = 'Próximamente';
+            statusClass = 'proximamente';
+            break;
+          default:
+            statusText = 'Disponible';
+            statusClass = 'disponible';
+        }
+
+        currentStockStatus.textContent = statusText;
+        currentStockStatus.className = `current-stock-status ${statusClass}`;
+
+        // Mostrar información adicional
+        if (estadoManual === 'auto') {
+          stockStatusText.innerHTML = `Estado actual: <span id="currentStockStatus" class="current-stock-status ${statusClass}">${statusText}</span> (calculado automáticamente)`;
+        } else {
+          stockStatusText.innerHTML = `Estado actual: <span id="currentStockStatus" class="current-stock-status ${statusClass}">${statusText}</span> (configurado manualmente)`;
+        }
+      } else {
+        stockInfo.style.display = 'none';
+      }
+    }
+
+    // Eventos para actualizar info de stock en tiempo real
+    document.getElementById('stockActual').addEventListener('input', updateStockInfo);
+    document.getElementById('stockMin').addEventListener('input', updateStockInfo);
+    document.getElementById('stockMax').addEventListener('input', updateStockInfo);
+    document.getElementById('estado').addEventListener('change', updateStockInfo);
+
+    // Función para resetear el formulario
+    function resetForm() {
+      form.reset();
+      imgPreview.style.display = 'none';
+      stockInfo.style.display = 'none';
+      editingId = null;
+      formTitle.textContent = 'Agregar Nuevo Producto';
+      submitBtn.textContent = 'Guardar Producto';
+      cancelBtn.style.display = 'none';
+      messageDiv.innerHTML = '';
+      // Resetear el estado a automático
+      document.getElementById('estado').value = 'auto';
+    }
+
+    // Función para cargar producto en formulario (editar)
+    function loadProductToForm(product) {
+      editingId = product.id;
+      formTitle.textContent = 'Editar Producto';
+      submitBtn.textContent = 'Actualizar Producto';
+      cancelBtn.style.display = 'inline-block';
+
+      document.getElementById('nombre').value = product.nombre;
+      document.getElementById('marca').value = product.marca || '';
+      document.getElementById('descripcion').value = product.descripcion;
+      document.getElementById('codigo-sku').value = product.sku;
+      document.getElementById('codigo-barras').value = product.codigoBarras;
+      document.getElementById('costo').value = product.costo;
+      document.getElementById('precio').value = product.precio;
+      document.getElementById('precio-comparacion').value = product.precioComparacion || '';
+      document.getElementById('oferta-activa').value = product.ofertaActiva ? 'si' : 'no';
+      document.getElementById('fecha-expira').value = product.fechaExpira || '';
+      document.getElementById('stockMax').value = product.stockMax;
+      document.getElementById('stockMin').value = product.stockMin;
+      document.getElementById('stockActual').value = product.stockActual;
+      document.getElementById('imagen').value = product.imagen;
+      document.getElementById('categoria').value = product.categoria;
+      
+      // Cargar el estado manual si existe, sino usar automático
+      document.getElementById('estado').value = product.estadoManual || 'auto';
+
+      if (product.imagen) {
+        imgPreview.src = product.imagen;
+        imgPreview.style.display = 'block';
+      }
+
+      // Actualizar información del stock
+      updateStockInfo();
+
+      // Scroll al formulario
+      form.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Función para eliminar producto
+    function deleteProduct(id) {
+      if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+        const productos = JSON.parse(localStorage.getItem('productos')) || [];
+        const updatedProductos = productos.filter(p => p.id !== id);
+        localStorage.setItem('productos', JSON.stringify(updatedProductos));
+        showMessage('Producto eliminado correctamente');
+        displayProducts();
+      }
+    }
+
+    // Función para mostrar los productos
+    function displayProducts() {
+      const productos = JSON.parse(localStorage.getItem('productos')) || [];
+      
+      if (productos.length === 0) {
+        productsContainer.innerHTML = '<div class="no-products">No hay productos registrados</div>';
+        return;
+      }
+
+      let tableHTML = `
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>SKU</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      productos.forEach(producto => {
+        // Usar el estado calculado correctamente
+        const estado = getStockStatus(producto.stockActual, producto.stockMin, producto.estadoManual || 'auto');
+        let stockClass = '';
+        let statusText = '';
+
+        switch (estado) {
+          case 'agotado':
+            stockClass = 'agotado';
+            statusText = 'Agotado';
+            break;
+          case 'alerta':
+            stockClass = 'alerta';
+            statusText = 'Bajo Stock';
+            break;
+          case 'disponible':
+            stockClass = 'disponible';
+            statusText = 'Disponible';
+            break;
+          case 'proximamente':
+            stockClass = 'proximamente';
+            statusText = 'Próximamente';
+            break;
+          default:
+            stockClass = 'disponible';
+            statusText = 'Disponible';
+        }
+        
+        tableHTML += `
+          <tr>
+            <td>
+              <img src="${producto.imagen}" alt="${producto.nombre}" class="product-image" onerror="this.style.display='none'">
+            </td>
+            <td>
+              <strong>${producto.nombre}</strong><br>
+              <small>${producto.marca || ''}</small>
+            </td>
+            <td>${producto.sku}</td>
+            <td>Q${producto.precio.toFixed(2)}</td>
+            <td>
+              ${producto.stockActual}/${producto.stockMax}
+              <span class="stock-label ${stockClass}">
+                ${statusText}
+              </span>
+            </td>
+            <td>${producto.estadoManual === 'auto' || !producto.estadoManual ? 'Automático' : 'Manual'}</td>
+            <td>
+              <button class="btn-edit" onclick="editProduct(${producto.id})">Editar</button>
+              <button class="btn-delete" onclick="deleteProduct(${producto.id})">Eliminar</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tableHTML += '</tbody></table>';
+      productsContainer.innerHTML = tableHTML;
+    }
+
+    // Función para editar producto (global)
+    window.editProduct = function(id) {
+      const productos = JSON.parse(localStorage.getItem('productos')) || [];
+      const producto = productos.find(p => p.id === id);
+      if (producto) {
+        loadProductToForm(producto);
+      }
+    };
+
+    // Función para eliminar producto (global)
+    window.deleteProduct = deleteProduct;
+
+    // Evento de cancelar
+    cancelBtn.addEventListener('click', resetForm);
+
+    // Evento de envío del formulario
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Obtener valores del formulario
+      const nombre = document.getElementById('nombre').value.trim();
+      const marca = document.getElementById('marca').value.trim();
+      const descripcion = document.getElementById('descripcion').value.trim();
+      const sku = document.getElementById('codigo-sku').value.trim();
+      const codigoBarras = document.getElementById('codigo-barras').value.trim();
+      const costo = parseFloat(document.getElementById('costo').value);
+      const precio = parseFloat(document.getElementById('precio').value);
+      const precioComparacion = parseFloat(document.getElementById('precio-comparacion').value) || null;
+      const ofertaActiva = document.getElementById('oferta-activa').value === "si";
+      const fechaExpira = document.getElementById('fecha-expira').value || null;
+      const stockMax = parseInt(document.getElementById('stockMax').value);
+      const stockMin = parseInt(document.getElementById('stockMin').value);
+      const stockActual = parseInt(document.getElementById('stockActual').value);
+      const imagen = document.getElementById('imagen').value.trim();
+      const categoria = document.getElementById('categoria').value;
+      const estadoManual = document.getElementById('estado').value;
+
+      // Validaciones
+      if (!validateImageUrl(imagen)) {
+        showMessage('URL de imagen inválida', 'error');
+        return;
+      }
+
+      if (!validateUniqueFields(sku, codigoBarras, editingId)) {
+        return;
+      }
+
+      if (!validatePrices(costo, precio, precioComparacion)) {
+        return;
+      }
+
+      if (!validateStock(stockMin, stockMax, stockActual)) {
+        return;
+      }
+
+      // Calcular el estado final del producto
+      const estadoFinal = getStockStatus(stockActual, stockMin, estadoManual);
+
+      // Crear o actualizar producto
+      const producto = {
+        id: editingId || Date.now(),
+        nombre,
+        marca,
+        descripcion,
+        sku,
+        codigoBarras,
+        costo,
+        precio,
+        precioComparacion,
+        ofertaActiva,
+        fechaExpira,
+        imagen,
+        categoria,
+        stock: estadoFinal,  // Estado calculado/final
+        estadoManual,         // Estado configurado manualmente
+        stockMax,
+        stockMin,
+        stockActual,
+        fechaCreacion: editingId ? undefined : new Date().toISOString(),
+        fechaModificacion: new Date().toISOString()
+      };
+
+      // Guardar en localStorage
+      const productos = JSON.parse(localStorage.getItem('productos')) || [];
+      
+      if (editingId) {
+        const index = productos.findIndex(p => p.id === editingId);
+        if (index !== -1) {
+          productos[index] = { ...productos[index], ...producto };
+        }
+        showMessage('✅ Producto actualizado con éxito');
+      } else {
+        productos.push(producto);
+        showMessage('✅ Producto guardado con éxito');
+      }
+
+      localStorage.setItem('productos', JSON.stringify(productos));
+      resetForm();
+      displayProducts();
+    });
+
+    // Cargar productos al iniciar
+    displayProducts();
+  </script>
+
+</body>
+</html>
