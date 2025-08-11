@@ -1,0 +1,44 @@
+<section class="product">
+  <div class="container product-inner">
+    <div class="product-media">
+      {% if product.media.size > 0 %}
+        <div class="media-gallery">
+          {% for media in product.media %}
+            {{ media | media }}
+          {% endfor %}
+        </div>
+      {% elsif product.featured_image %}
+        <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title }}">
+      {% endif %}
+    </div>
+
+    <div class="product-details">
+      <h1>{{ product.title }}</h1>
+      <p class="price">{{ product.price | money }}</p>
+
+      {% form 'product', product %}
+        {% if product.has_only_default_variant %}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        {% else %}
+          <label for="variant-select">{{ 'products.product.select_option' | t }}</label>
+          <select id="variant-select" name="id">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                {{ variant.title }} - {{ variant.price | money }}
+              </option>
+            {% endfor %}
+          </select>
+        {% endif %}
+        <button type="submit">{{ 'products.product.add_to_cart' | t }}</button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product information",
+  "settings": [],
+  "presets": [ { "name": "Product information" } ]
+}
+{% endschema %}

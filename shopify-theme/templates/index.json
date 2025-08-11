@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "hero": {
+      "type": "main-hero",
+      "settings": {
+        "heading": "Bienvenido a nuestra tienda",
+        "subheading": "Descubre nuestros productos",
+        "button_label": "Comprar ahora",
+        "button_link": "/collections/all"
+      }
+    },
+    "grid": {
+      "type": "product-grid",
+      "settings": {
+        "heading": "Productos destacados",
+        "products_to_show": 8
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "grid"
+  ]
+}

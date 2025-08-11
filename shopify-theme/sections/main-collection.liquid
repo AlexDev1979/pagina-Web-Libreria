@@ -1,0 +1,34 @@
+<section class="collection">
+  <div class="container">
+    <h1>{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="rte">{{ collection.description }}</div>
+    {% endif %}
+
+    {% if collection.products_count == 0 %}
+      <p>{{ 'collections.general.no_matches' | t }}</p>
+    {% else %}
+      <ul class="grid">
+        {% for product in collection.products %}
+          <li class="grid-item">
+            <a href="{{ product.url }}" class="product-card">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+              {% endif %}
+              <h3 class="product-title">{{ product.title }}</h3>
+              <span class="product-price">{{ product.price | money }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [],
+  "presets": [ { "name": "Collection" } ]
+}
+{% endschema %}

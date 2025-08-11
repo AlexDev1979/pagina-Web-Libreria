@@ -1,0 +1,37 @@
+<section class="product-grid">
+  <div class="container">
+    {% if section.settings.heading != blank %}
+      <h2>{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.collection == blank %}
+      <p>{{ 'sections.product_grid.select_collection' | t }}</p>
+    {% else %}
+      <ul class="grid">
+        {% for product in section.settings.collection.products limit: section.settings.products_to_show %}
+          <li class="grid-item">
+            <a href="{{ product.url }}" class="product-card">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+              {% endif %}
+              <h3 class="product-title">{{ product.title }}</h3>
+              <span class="product-price">{{ product.price | money }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product grid",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured products" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 24, "step": 2, "default": 8 }
+  ],
+  "presets": [ { "name": "Product grid" } ]
+}
+{% endschema %}

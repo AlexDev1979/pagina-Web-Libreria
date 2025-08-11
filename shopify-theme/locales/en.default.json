@@ -1,0 +1,21 @@
+{
+  "general": {
+    "pagination": { "page": "Page {{ number }}" }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "select_option": "Select an option"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "There are no products in this collection"
+    }
+  },
+  "sections": {
+    "product_grid": {
+      "select_collection": "Select a collection in the section settings"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="{{ routes.root_url }}" class="site-logo">
+      {% if section.settings.logo != blank %}
+        <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" loading="eager">
+      {% else %}
+        <span class="site-title">{{ shop.name }}</span>
+      {% endif %}
+    </a>
+
+    {% if section.settings.main_menu != blank %}
+      <nav class="site-nav" role="navigation">
+        <ul>
+          {% for link in section.settings.main_menu.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "site-header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "link_list", "id": "main_menu", "label": "Main menu" }
+  ],
+  "presets": [ { "name": "Header" } ]
+}
+{% endschema %}
