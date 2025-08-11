@@ -76,3 +76,33 @@ body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarel
 /* Cart inputs */
 .cart-note textarea, .cart-discount input { width: 100%; border: 1px solid #e5e7eb; border-radius: .375rem; padding: .5rem; margin-top: .25rem; }
 .cart-discount small { display: block; color: var(--muted-color); margin-top: .25rem; }
+
+/* Main cart page */
+.main-cart .cart-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.main-cart .cart-table th, .main-cart .cart-table td { padding: .75rem; border-bottom: 1px solid #eee; text-align: left; vertical-align: middle; }
+.main-cart .cart-row .product { display: grid; grid-template-columns: 80px 1fr; gap: .75rem; }
+.main-cart .cart-row .thumb img { width: 80px; height: 80px; object-fit: cover; border: 1px solid #eee; border-radius: .25rem; }
+.main-cart .cart-row .title { font-weight: 600; color: inherit; text-decoration: none; }
+.main-cart .cart-row .variant { color: var(--muted-color); font-size: .875rem; }
+.main-cart .cart-summary { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
+.main-cart .cart-summary .actions { display: flex; gap: .5rem; }
+
+/* Upsell grids */
+.cart-upsell { padding: 1rem; border-top: 1px solid #eee; }
+.cart-upsell h3 { margin: 0 0 .5rem; }
+.upsell-grid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .75rem; padding: 0; margin: 0; }
+.upsell-item { border: 1px solid #eee; border-radius: .375rem; padding: .5rem; }
+.upsell-item img { width: 100%; height: auto; border-radius: .25rem; border: 1px solid #eee; }
+.upsell-item .title { display: block; margin-top: .25rem; font-size: .95rem; }
+.upsell-item .price { color: var(--muted-color); font-size: .9rem; }
+.upsell-form button { margin-top: .5rem; width: 100%; }
+
+/* Mini cross-sell */
+.mobile-minicart .mini-crosssell { padding: .5rem 1rem; border-top: 1px solid #eee; }
+.mobile-minicart .mini-crosssell h4 { margin: 0 0 .25rem; font-size: .95rem; }
+.mobile-minicart .mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .5rem; }
+.mobile-minicart .mini-item { border: 1px solid #eee; border-radius: .375rem; padding: .5rem; }
+.mobile-minicart .mini-item img { width: 100%; height: auto; border-radius: .25rem; border: 1px solid #eee; }
+.mobile-minicart .mini-item .title { display: block; font-size: .85rem; }
+.mobile-minicart .mini-item .price { color: var(--muted-color); font-size: .8rem; }
+.mobile-minicart .mini-item form button { margin-top: .25rem; width: 100%; }

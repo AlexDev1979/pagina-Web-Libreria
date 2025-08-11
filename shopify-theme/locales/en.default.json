@@ -20,6 +20,12 @@
   },
   "cart": {
     "title": "Your cart",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "remove": "Remove",
+    "update": "Update cart",
     "subtotal": "Subtotal",
     "checkout": "Checkout",
     "view_cart": "View cart",
@@ -30,6 +36,7 @@
     "note_placeholder": "Add a note for the seller",
     "discount_label": "Discount code",
     "discount_placeholder": "Enter your discount code",
-    "discount_hint": "Discount will apply at checkout"
+    "discount_hint": "Discount will apply at checkout",
+    "upsell_heading": "You may also like"
   }
 }

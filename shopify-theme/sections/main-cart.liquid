@@ -1,0 +1,72 @@
+<section class="main-cart">
+  <div class="container">
+    <h1>{{ 'cart.title' | t }}</h1>
+
+    {% if cart.item_count == 0 %}
+      <p>{{ 'cart.empty' | t }}</p>
+    {% else %}
+      <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-form">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>{{ 'cart.product' | t }}</th>
+              <th>{{ 'cart.price' | t }}</th>
+              <th>{{ 'cart.quantity' | t }}</th>
+              <th>{{ 'cart.total' | t }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart.items %}
+              <tr class="cart-row">
+                <td class="cart-col product">
+                  <a href="{{ item.url }}" class="thumb">
+                    {% if item.image %}
+                      <img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title }}">
+                    {% endif %}
+                  </a>
+                  <div class="info">
+                    <a href="{{ item.url }}" class="title">{{ item.product.title }}</a>
+                    {% if item.variant_title %}<div class="variant">{{ item.variant_title }}</div>{% endif %}
+                  </div>
+                </td>
+                <td class="cart-col price">{{ item.final_price | money }}</td>
+                <td class="cart-col qty">
+                  <input type="number" min="0" name="updates[{{ item.key }}]" value="{{ item.quantity }}">
+                </td>
+                <td class="cart-col line-total">{{ item.final_line_price | money }}</td>
+                <td class="cart-col remove">
+                  <a href="/cart/change?line={{ forloop.index }}&quantity=0">{{ 'cart.remove' | t }}</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="cart-note">
+          <label for="CartPageNote">{{ 'cart.note_label' | t }}</label>
+          <textarea id="CartPageNote" name="note" rows="3" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+        </div>
+
+        <div class="cart-summary">
+          <div class="subtotal">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <strong>{{ cart.total_price | money }}</strong>
+          </div>
+          <div class="actions">
+            <button type="submit" name="update" class="button button-outline">{{ 'cart.update' | t }}</button>
+            <button type="submit" name="checkout" class="button">{{ 'cart.checkout' | t }}</button>
+          </div>
+        </div>
+      </form>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [],
+  "presets": [ { "name": "Cart" } ]
+}
+{% endschema %}

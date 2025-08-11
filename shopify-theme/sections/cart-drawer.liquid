@@ -8,6 +8,30 @@
     <div class="cart-body" data-cart-items>
       <!-- Items rendered by JS -->
     </div>
+
+    {% if section.settings.upsell_collection != blank %}
+      <div class="cart-upsell">
+        <h3>{{ 'cart.upsell_heading' | t }}</h3>
+        <ul class="upsell-grid">
+          {% for product in section.settings.upsell_collection.products limit: section.settings.upsell_limit %}
+            <li class="upsell-item">
+              <a href="{{ product.url }}">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.title }}">
+                {% endif %}
+                <span class="title">{{ product.title }}</span>
+              </a>
+              <div class="price">{{ product.price | money }}</div>
+              <form method="post" action="/cart/add" class="product-form upsell-form">
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                <button type="submit">{{ 'products.product.add_to_cart' | t }}</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
     <footer class="cart-footer">
       <div class="cart-subtotal">
         <span>{{ 'cart.subtotal' | t }}</span>
@@ -36,7 +60,10 @@
 {% schema %}
 {
   "name": "Cart drawer",
-  "settings": [],
+  "settings": [
+    { "type": "collection", "id": "upsell_collection", "label": "Upsell collection" },
+    { "type": "range", "id": "upsell_limit", "label": "Upsell products to show", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ],
   "presets": [ { "name": "Cart drawer" } ]
 }
 {% endschema %}

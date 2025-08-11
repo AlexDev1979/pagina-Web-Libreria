@@ -1,6 +1,9 @@
 [
   {
     "name": "Theme settings",
-    "settings": []
+    "settings": [
+      { "type": "collection", "id": "cross_sell_collection", "label": "Cross-sell collection" },
+      { "type": "range", "id": "cross_sell_limit", "label": "Cross-sell products to show", "min": 2, "max": 8, "step": 1, "default": 4 }
+    ]
   }
 ]
