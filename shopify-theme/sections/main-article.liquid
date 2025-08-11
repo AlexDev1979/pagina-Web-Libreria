@@ -1,0 +1,18 @@
+<section class="article">
+  <div class="container">
+    {% render 'breadcrumbs' %}
+    <h1>{{ article.title }}</h1>
+    {% if article.image %}
+      <img src="{{ article.image | image_url: width: 1600 }}" alt="{{ article.title }}">
+    {% endif %}
+    <div class="rte">{{ article.content }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [],
+  "presets": [ { "name": "Article" } ]
+}
+{% endschema %}

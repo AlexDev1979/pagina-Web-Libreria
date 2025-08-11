@@ -9,7 +9,16 @@
       {% if current_tags %} – {{ current_tags | join: ', ' }}{% endif %}
       {% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}
     </title>
+    <meta name="description" content="{{ page_description | default: shop.meta_description }}">
+    <link rel="canonical" href="{{ canonical_url }}">
     {{ content_for_header }}
+    <style>
+      :root{
+        --primary: {{ settings.primary_color | default: '#111827' }};
+        --text-color: {{ settings.text_color | default: '#111111' }};
+        --bg-color: {{ settings.background_color | default: '#ffffff' }};
+      }
+    </style>
     {{ 'base.css' | asset_url | stylesheet_tag }}
     <script>
       window.themeMoneyFormat = {{ shop.money_format | json }};
@@ -17,6 +26,7 @@
       window.themeStrings = {
         'cart.empty': {{ 'cart.empty' | t | json }}
       };
+      window.themeAB = { enabled: {{ settings.ab_upsell_enabled | json }}, variantBLimit: {{ settings.upsell_variant_b_limit | json }}, sort: {{ settings.upsell_sort_strategy | json }} };
     </script>
   </head>
   <body>

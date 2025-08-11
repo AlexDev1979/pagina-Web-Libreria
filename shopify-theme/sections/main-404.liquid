@@ -1,0 +1,19 @@
+<section class="not-found">
+  <div class="container">
+    <h1>{{ '404.title' | t }}</h1>
+    <p>{{ '404.message' | t }}</p>
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <input type="search" name="q" placeholder="{{ 'search.placeholder' | t }}">
+      <button type="submit" class="button">{{ 'search.submit' | t }}</button>
+    </form>
+    <p><a class="button button-outline" href="/collections/all">{{ '404.cta' | t }}</a></p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404",
+  "settings": [],
+  "presets": [ { "name": "404" } ]
+}
+{% endschema %}

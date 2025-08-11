@@ -1,5 +1,6 @@
 <section class="collection">
   <div class="container">
+    {% render 'breadcrumbs' %}
     <h1>{{ collection.title }}</h1>
     {% if collection.description != blank %}
       <div class="rte">{{ collection.description }}</div>
@@ -8,19 +9,41 @@
     {% if collection.products_count == 0 %}
       <p>{{ 'collections.general.no_matches' | t }}</p>
     {% else %}
-      <ul class="grid">
-        {% for product in collection.products %}
-          <li class="grid-item">
-            <a href="{{ product.url }}" class="product-card">
-              {% if product.featured_image %}
-                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
-              {% endif %}
-              <h3 class="product-title">{{ product.title }}</h3>
-              <span class="product-price">{{ product.price | money }}</span>
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
+      <form method="get" class="collection-controls">
+        <label for="SortBy">{{ 'collections.sort_by' | t }}</label>
+        <select name="sort_by" id="SortBy" onchange="this.form.submit()">
+          {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+          <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>{{ 'collections.sort.best_selling' | t }}</option>
+          <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>{{ 'collections.sort.title_asc' | t }}</option>
+          <option value="title-descending" {% if sort_by == 'title-descending' %}selected{% endif %}>{{ 'collections.sort.title_desc' | t }}</option>
+          <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>{{ 'collections.sort.price_asc' | t }}</option>
+          <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>{{ 'collections.sort.price_desc' | t }}</option>
+          <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>{{ 'collections.sort.newest' | t }}</option>
+        </select>
+      </form>
+
+      {% paginate collection.products by 24 %}
+        <ul class="grid">
+          {% for product in collection.products %}
+            <li class="grid-item">
+              <a href="{{ product.url }}" class="product-card">
+                {% if product.featured_image %}
+                  <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}">
+                {% endif %}
+                <h3 class="product-title">{{ product.title }}</h3>
+                <span class="product-price">{{ product.price | money }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if paginate.pages > 1 %}
+          <nav class="pagination" role="navigation">
+            {% if paginate.previous %}<a href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>{% endif %}
+            <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+            {% if paginate.next %}<a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>{% endif %}
+          </nav>
+        {% endif %}
+      {% endpaginate %}
     {% endif %}
   </div>
 </section>

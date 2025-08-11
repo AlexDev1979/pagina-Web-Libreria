@@ -1,7 +1,10 @@
 {
   "general": {
-    "pagination": { "page": "Page {{ number }}" }
+    "pagination": { "page": "Page {{ number }}", "previous": "Previous", "next": "Next" }
   },
+  "search": { "title": "Search", "placeholder": "Search products", "submit": "Search", "no_results": "No results found" },
+  "newsletter": { "title": "Subscribe to our newsletter", "placeholder": "Your email", "subscribe": "Subscribe" },
+  "breadcrumbs": { "home": "Home" },
   "products": {
     "product": {
       "add_to_cart": "Add to cart",
@@ -11,6 +14,15 @@
   "collections": {
     "general": {
       "no_matches": "There are no products in this collection"
+    },
+    "sort_by": "Sort by",
+    "sort": {
+      "best_selling": "Best selling",
+      "title_asc": "Title, A–Z",
+      "title_desc": "Title, Z–A",
+      "price_asc": "Price, low to high",
+      "price_desc": "Price, high to low",
+      "newest": "Newest"
     }
   },
   "sections": {
@@ -38,5 +50,6 @@
     "discount_placeholder": "Enter your discount code",
     "discount_hint": "Discount will apply at checkout",
     "upsell_heading": "You may also like"
-  }
+  },
+  "404": { "title": "Page not found", "message": "The page you were looking for does not exist.", "cta": "Shop all" }
 }
