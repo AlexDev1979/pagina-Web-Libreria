@@ -1,0 +1,39 @@
+<div class="mobile-minicart" data-mobile-minicart>
+  <div class="mini-inner">
+    <button class="mini-open" data-cart-toggle aria-label="{{ 'cart.open' | t }}">
+      🛒 <span data-mini-count>0</span>
+    </button>
+    <div class="mini-subtotal">
+      <span>{{ 'cart.subtotal' | t }}:</span>
+      <strong data-mini-subtotal>—</strong>
+    </div>
+    <div class="mini-actions">
+      <a href="{{ routes.cart_url }}" class="button button-outline">{{ 'cart.view_cart' | t }}</a>
+      <form action="/checkout" method="post">
+        <button type="submit" class="button">{{ 'cart.checkout' | t }}</button>
+      </form>
+      <div class="mini-crosssell">
+    {% if settings.cross_sell_collection != blank %}
+      <h4>{{ 'cart.upsell_heading' | t }}</h4>
+      <div class="mini-grid">
+        {% for product in settings.cross_sell_collection.products limit: settings.cross_sell_limit %}
+          <div class="mini-item">
+            <a href="{{ product.url }}">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
+              {% endif %}
+              <span class="title">{{ product.title }}</span>
+            </a>
+            <div class="price">{{ product.price | money }}</div>
+            <form method="post" action="/cart/add" class="product-form">
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              <button type="submit">{{ 'products.product.add_to_cart' | t }}</button>
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+</div>
+</div>

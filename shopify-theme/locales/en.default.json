@@ -1,0 +1,55 @@
+{
+  "general": {
+    "pagination": { "page": "Page {{ number }}", "previous": "Previous", "next": "Next" }
+  },
+  "search": { "title": "Search", "placeholder": "Search products", "submit": "Search", "no_results": "No results found" },
+  "newsletter": { "title": "Subscribe to our newsletter", "placeholder": "Your email", "subscribe": "Subscribe" },
+  "breadcrumbs": { "home": "Home" },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "select_option": "Select an option"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "There are no products in this collection"
+    },
+    "sort_by": "Sort by",
+    "sort": {
+      "best_selling": "Best selling",
+      "title_asc": "Title, A–Z",
+      "title_desc": "Title, Z–A",
+      "price_asc": "Price, low to high",
+      "price_desc": "Price, high to low",
+      "newest": "Newest"
+    }
+  },
+  "sections": {
+    "product_grid": {
+      "select_collection": "Select a collection in the section settings"
+    }
+  },
+  "cart": {
+    "title": "Your cart",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "remove": "Remove",
+    "update": "Update cart",
+    "subtotal": "Subtotal",
+    "checkout": "Checkout",
+    "view_cart": "View cart",
+    "empty": "Your cart is empty",
+    "open": "Open cart",
+    "close": "Close cart",
+    "note_label": "Order note",
+    "note_placeholder": "Add a note for the seller",
+    "discount_label": "Discount code",
+    "discount_placeholder": "Enter your discount code",
+    "discount_hint": "Discount will apply at checkout",
+    "upsell_heading": "You may also like"
+  },
+  "404": { "title": "Page not found", "message": "The page you were looking for does not exist.", "cta": "Shop all" }
+}

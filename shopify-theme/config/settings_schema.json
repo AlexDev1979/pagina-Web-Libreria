@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Theme settings",
+    "settings": [
+      { "type": "color", "id": "primary_color", "label": "Primary color", "default": "#111827" },
+      { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+      { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+      { "type": "collection", "id": "cross_sell_collection", "label": "Cross-sell collection" },
+      { "type": "range", "id": "cross_sell_limit", "label": "Cross-sell products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+      { "type": "header", "content": "Upsell A/B testing" },
+      { "type": "checkbox", "id": "ab_upsell_enabled", "label": "Enable A/B testing for upsell", "default": false },
+      { "type": "range", "id": "upsell_variant_b_limit", "label": "Variant B: products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+      { "type": "select", "id": "upsell_sort_strategy", "label": "Upsell sort strategy", "default": "default", "options": [
+        { "value": "default", "label": "Default (relevance)" },
+        { "value": "price_asc", "label": "Price ascending" },
+        { "value": "price_desc", "label": "Price descending" }
+      ] }
+    ]
+  }
+]

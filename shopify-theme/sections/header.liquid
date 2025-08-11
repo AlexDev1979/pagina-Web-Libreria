@@ -1,0 +1,66 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="{{ routes.root_url }}" class="site-logo">
+      {% if section.settings.logo != blank %}
+        <img src="{{ section.settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}" loading="eager">
+      {% else %}
+        <span class="site-title">{{ shop.name }}</span>
+      {% endif %}
+    </a>
+
+    {% if section.settings.main_menu != blank %}
+      <nav class="site-nav" role="navigation">
+        <ul>
+          {% for link in section.settings.main_menu.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+
+    <form action="{{ routes.search_url }}" method="get" role="search" class="search" autocomplete="off" data-search-form>
+      <input type="search" name="q" placeholder="{{ 'search.placeholder' | t }}" aria-label="{{ 'search.placeholder' | t }}" data-search-input>
+      <input type="hidden" name="type" value="product">
+      <div class="search-suggest" hidden data-search-suggest></div>
+    </form>
+
+    <form method="post" action="{{ routes.locale_url }}" class="localization">
+      {% form 'localization' %}
+        <select name="locale_code" onchange="this.form.submit()">
+          {% for locale in localization.available_languages %}
+            <option value="{{ locale.iso_code }}" {% if locale.iso_code == localization.language.iso_code %}selected{% endif %}>{{ locale.endonym_name }}</option>
+          {% endfor %}
+        </select>
+        <select name="country_code" onchange="this.form.submit()">
+          {% for country in localization.available_countries %}
+            <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ country.name }} ({{ country.currency.iso_code }})</option>
+          {% endfor %}
+        </select>
+      {% endform %}
+    </form>
+
+    <button class="cart-button" data-cart-toggle aria-label="{{ 'cart.open' | t }}">
+      <svg class="cart-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M6 6h15l-1.5 9h-13z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="9" cy="20" r="1.5" fill="currentColor"/>
+        <circle cx="18" cy="20" r="1.5" fill="currentColor"/>
+      </svg>
+      <span class="cart-count-bubble" data-cart-count>0</span>
+    </button>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "site-header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "link_list", "id": "main_menu", "label": "Main menu" }
+  ],
+  "presets": [ { "name": "Header" } ]
+}
+{% endschema %}

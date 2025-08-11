@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+      {{ page_title }}
+      {% if current_page != 1 %} – {{ 'general.pagination.page' | t: number: current_page }}{% endif %}
+      {% if current_tags %} – {{ current_tags | join: ', ' }}{% endif %}
+      {% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}
+    </title>
+    <meta name="description" content="{{ page_description | default: shop.meta_description }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {{ content_for_header }}
+    <style>
+      :root{
+        --primary: {{ settings.primary_color | default: '#111827' }};
+        --text-color: {{ settings.text_color | default: '#111111' }};
+        --bg-color: {{ settings.background_color | default: '#ffffff' }};
+      }
+    </style>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script>
+      window.themeMoneyFormat = {{ shop.money_format | json }};
+      window.themeCurrency = {{ shop.currency | json }};
+      window.themeStrings = {
+        'cart.empty': {{ 'cart.empty' | t | json }}
+      };
+      window.themeAB = { enabled: {{ settings.ab_upsell_enabled | json }}, variantBLimit: {{ settings.upsell_variant_b_limit | json }}, sort: {{ settings.upsell_sort_strategy | json }} };
+    </script>
+  </head>
+  <body>
+    {% section 'header' %}
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {% section 'footer' %}
+    {% section 'cart-drawer' %}
+    {% render 'mobile-minicart' %}
+    {{ 'theme.js' | asset_url | script_tag }}
+  </body>
+</html>

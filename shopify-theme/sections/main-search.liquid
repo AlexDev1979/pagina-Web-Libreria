@@ -1,0 +1,38 @@
+<section class="search-page">
+  <div class="container">
+    <h1>{{ 'search.title' | t }}</h1>
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}">
+      <input type="hidden" name="type" value="product">
+      <button type="submit" class="button">{{ 'search.submit' | t }}</button>
+    </form>
+
+    {% if search.performed %}
+      {% if search.results_count > 0 %}
+        <ul class="grid">
+          {% for item in search.results %}
+            <li class="grid-item">
+              <a href="{{ item.url }}" class="product-card">
+                {% if item.featured_image %}
+                  <img src="{{ item.featured_image | image_url: width: 600 }}" alt="{{ item.title }}">
+                {% endif %}
+                <h3 class="product-title">{{ item.title }}</h3>
+                {% if item.price %}<span class="product-price">{{ item.price | money }}</span>{% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{{ 'search.no_results' | t }}</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search",
+  "settings": [],
+  "presets": [ { "name": "Search" } ]
+}
+{% endschema %}

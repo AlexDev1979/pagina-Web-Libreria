@@ -1,0 +1,41 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-left">
+      <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+      {% if section.settings.footer_menu != blank %}
+        <nav class="footer-nav" role="navigation">
+          <ul>
+            {% for link in section.settings.footer_menu.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+    </div>
+    <div class="footer-right">
+      {% if section.settings.show_newsletter %}
+        <div class="newsletter">
+          <h3>{{ 'newsletter.title' | t }}</h3>
+          {% form 'customer' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input type="email" name="contact[email]" placeholder="{{ 'newsletter.placeholder' | t }}" required>
+            <button type="submit" class="button">{{ 'newsletter.subscribe' | t }}</button>
+          {% endform %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "footer",
+  "class": "site-footer",
+  "settings": [
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
+    { "type": "link_list", "id": "footer_menu", "label": "Footer menu" }
+  ],
+  "presets": [ { "name": "Footer" } ]
+}
+{% endschema %}
